@@ -25,7 +25,8 @@ export default function ShoppingList() {
       axios.post(
         "http://localhost:8000/items/",
         {items: items}
-      );
+      ).then((res) => console.log(res));
+      console.log(items)
     }
 
     if (e.key === "Backspace" && items[index] === "" && items.length > 1) {
