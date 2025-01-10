@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { motion } from "motion/react";
 
 export default function ShoppingList() {
   const [items, setItems] = useState([""]);
+  const [content, setContent] = useState();
 
   const handleTextChange = (index, value) => {
     const newItems = [...items];
@@ -22,11 +24,6 @@ export default function ShoppingList() {
         newItems.splice(index + 1, 0, "");
         setItems(newItems);
       }
-      axios.post(
-        "http://localhost:8000/items/",
-        {items: items}
-      ).then((res) => console.log(res));
-      console.log(items)
     }
 
     if (e.key === "Backspace" && items[index] === "" && items.length > 1) {
@@ -35,9 +32,17 @@ export default function ShoppingList() {
     }
   };
 
+  const handleSubmit = () => {
+    axios
+      .post("http://localhost:8000/items/", { items: items })
+      .then((res) => setContent(res.data.content));
+
+    console.log(content);
+  };
+
   return (
     <>
-      <ul className="bg-transparent border-2 border-white rounded-xl m-16 p-4">
+      <motion.ul className="bg-transparent border-2 border-white rounded-xl m-16 p-4">
         {items.map((item, i) => (
           <li key={i}>
             <input
@@ -50,7 +55,24 @@ export default function ShoppingList() {
             />
           </li>
         ))}
-      </ul>
+        <button onClick={handleSubmit} className="justify-self-end">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="none"
+              stroke="white"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m19 12l-6-6m6 6l-6 6m6-6H5"
+            />
+          </svg>
+        </button>
+      </motion.ul>
     </>
   );
 }
