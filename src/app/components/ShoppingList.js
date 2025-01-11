@@ -3,10 +3,12 @@
 import { useState } from "react";
 import axios from "axios";
 import { motion } from "motion/react";
+import { animate } from "motion";
 
 export default function ShoppingList() {
   const [items, setItems] = useState([""]);
-  const [content, setContent] = useState();
+  const [content, setContent] = useState("");
+  const [expand, setExpand] = useState(false);
 
   const handleTextChange = (index, value) => {
     const newItems = [...items];
@@ -32,17 +34,19 @@ export default function ShoppingList() {
     }
   };
 
-  const handleSubmit = () => {
-    axios
-      .post("http://localhost:8000/items/", { items: items })
-      .then((res) => setContent(res.data.content));
-
-    console.log(content);
+  const handleSubmit = async () => {
+    axios.post("http://localhost:8000/items/", { items: items }).then((res) => {
+      setContent(res.data.content);
+      console.log(content);
+      setExpand(true);
+    });
   };
 
   return (
     <>
-      <motion.ul className="bg-transparent border-2 border-white rounded-xl m-16 p-4">
+      <ul
+        className={`grid bg-transparent border-2 border-white rounded-xl m-16 p-4 ${expand ? "w-0" : ""}`}
+      >
         {items.map((item, i) => (
           <li key={i}>
             <input
@@ -55,11 +59,12 @@ export default function ShoppingList() {
             />
           </li>
         ))}
-        <button onClick={handleSubmit} className="justify-self-end">
-          <svg
+        <button onClick={handleSubmit} className="place-self-end">
+          <motion.svg
+            whileHover={{ scale: 1.1 }}
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="32"
+            height="32"
             viewBox="0 0 24 24"
           >
             <path
@@ -70,9 +75,9 @@ export default function ShoppingList() {
               strokeWidth="2"
               d="m19 12l-6-6m6 6l-6 6m6-6H5"
             />
-          </svg>
+          </motion.svg>
         </button>
-      </motion.ul>
+      </ul>
     </>
   );
 }
