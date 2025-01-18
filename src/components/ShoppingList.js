@@ -40,7 +40,7 @@ export default function ShoppingList() {
   }
 
   const handleSubmit = () => {
-    axios.post("http://localhost:8000/search_items/", { items: items }).then((res) => {
+    axios.post("http://localhost:8000/search_items/", { items_list: items }).then((res) => {
       setContent(res.data.content);
       console.log(content);
     });

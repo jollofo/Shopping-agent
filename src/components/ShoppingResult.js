@@ -1,12 +1,24 @@
-export default function ShoppingResult({items}) {
+import axios from "axios";
+import { useState } from "react";
 
-    return (
-        <>
-            <ul className="bg-transparent text-white text-xl rounded-xl p-2 outline-none">
-                {/* {items.map((item, i) => {
-                    <li key={i}>{item}</li>
-                })} */}
-            </ul>
-        </>
-    )
+export default function ShoppingResult({ results }) {
+  const [c, setC] = useState([]);
+
+  const content = () => {
+    axios
+      .post("http://localhost:8000/shop_items/", { shopping_results: results })
+      .then((res) => console.log(res.data));
+  };
+
+  setC(content);
+
+  return (
+    <>
+      <ul className="bg-transparent text-white text-xl rounded-xl p-2 outline-none">
+        {c.map((c, i) => {
+          <li key={i}>{r}</li>;
+        })}
+      </ul>
+    </>
+  );
 }
