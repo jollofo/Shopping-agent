@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { motion } from "motion/react";
 import { animate } from "motion";
+import ShoppingResult from "./ShoppingResult";
 
 export default function ShoppingList() {
   const [items, setItems] = useState([""]);
@@ -34,18 +35,21 @@ export default function ShoppingList() {
     }
   };
 
-  const handleSubmit = async () => {
-    axios.post("http://localhost:8000/items/", { items: items }).then((res) => {
+  const parseContent = () => {
+
+  }
+
+  const handleSubmit = () => {
+    axios.post("http://localhost:8000/search_items/", { items: items }).then((res) => {
       setContent(res.data.content);
       console.log(content);
-      setExpand(true);
     });
   };
 
   return (
     <>
       <ul
-        className={`grid bg-transparent border-2 border-white rounded-xl m-16 p-4 ${expand ? "w-0" : ""}`}
+        className={`grid bg-transparent border-2 border-white rounded-xl m-16 p-4`}
       >
         {items.map((item, i) => (
           <li key={i}>
@@ -78,6 +82,8 @@ export default function ShoppingList() {
           </motion.svg>
         </button>
       </ul>
+
+      <ShoppingResult items={content}/>
     </>
   );
 }
