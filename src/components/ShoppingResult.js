@@ -1,23 +1,23 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default function ShoppingResult({ results }) {
-  const [c, setC] = useState([]);
-
+export default function ShoppingResult({ items }) {
+  const [cont, setCont] = useState("");
   const content = () => {
     axios
-      .post("http://localhost:8000/shop_items/", { shopping_results: results })
-      .then((res) => console.log(res.data));
+      .post("http://localhost:8000/shop_items/", { shopping_results: items })
+      .then((res) => {
+        console.log(res.data);
+        setCont(res.data.content)
+      }
+    );
   };
-
-  setC(content);
 
   return (
     <>
-      <ul className="bg-transparent text-white text-xl rounded-xl p-2 outline-none">
-        {c.map((c, i) => {
-          <li key={i}>{r}</li>;
-        })}
+    <button onClick={content}>Click me</button>
+      <ul className="grid bg-transparent border-2 border-white rounded-xl m-16 p-4">
+        <li></li>
       </ul>
     </>
   );
