@@ -17,7 +17,7 @@ export default function ShoppingResult({ items }) {
     <>
     <button onClick={content}>Click me</button>
       <ul className="grid bg-transparent border-2 border-white rounded-xl m-16 p-4">
-        <li></li>
+        <li>{cont}</li>
       </ul>
     </>
   );
