@@ -35,13 +35,11 @@ export default function ShoppingList() {
     }
   };
 
-  const parseContent = () => {
-
-  }
 
   const handleSubmit = () => {
     axios.post("http://localhost:8000/search_items/", { items_list: items }).then((res) => {
       setContent(res.data.content);
+      console.log(content)
     });
   };
 
@@ -81,8 +79,6 @@ export default function ShoppingList() {
           </motion.svg>
         </button>
       </ul>
-
-      <ShoppingResult items={content}/>
     </>
   );
 }
